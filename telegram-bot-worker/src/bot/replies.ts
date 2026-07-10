@@ -1,7 +1,6 @@
 import { tz } from '@date-fns/tz';
 import { format } from 'date-fns/format';
 import { Weather } from '../../../weather-wbgt-service/src/weather.api';
-import { Rota } from '../../../packages/utils/schedule/rota';
 import { Template } from './template';
 
 const SINGAPORE_TIME_ZONE = 'Asia/Singapore';
@@ -116,8 +115,8 @@ To change your schedule, select a different option below. To stop updates, press
 
 export const SETROTA_ERROR_MESSAGE = 'An error occurred while setting your rota. Please try again later.';
 
-export function buildRotaSetSuccessMessage(rota: Rota.WorkingSchedule, nextJobRun: Date) {
-	if (rota === 'office_hours') {
+export function buildRotaSetSuccessMessage(rota: '1' | '2' | '3' | 'OFFICE_HOURS', nextJobRun: Date) {
+	if (rota === 'OFFICE_HOURS') {
 		return `✅ You're subscribed to Office Hours. You will receive weather updates every weekday. To change your schedule or stop updates, use the /settings command.
 
 Next update: ${escapeHtml(formatSingaporeDate(nextJobRun))}

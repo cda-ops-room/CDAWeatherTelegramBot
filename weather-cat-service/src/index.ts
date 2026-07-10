@@ -1,5 +1,4 @@
 import { CatStatus } from './catStatus.api';
-import getNextTTLForCurrentQuarterHour from '../../weather-wbgt-service/src/getNextTTLForCurrentQuarterHour';
 import { TZDate } from '@date-fns/tz';
 
 /**
