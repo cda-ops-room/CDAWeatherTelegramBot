@@ -295,10 +295,10 @@ Info last updated: ${formatDate(new Date(cda.update_on)) ?? 'N/A'}
 
 		const {tag, id, timestamp} = env.CF_VERSION_METADATA
 		await ctx.reply(`🤖 <b>CDA ARMS Weather Bot</b>
-Deployment Tag: ${tag || 'No tag found'}
-Deployment ID: ${id || 'No id found'}
-Deployment short ID: ${id.split("-")[0] || 'No short id found'}
-Timestamp: ${formatDate(new Date(timestamp).toISOString())}
+Deployment Tag: <code>${tag || 'No tag found'}</code>
+Deployment ID: <code>${id || 'No id found'}</code>
+Deployment short ID: <code>${id.split("-")[0] || 'No short id found'}</code>
+Timestamp: <code>${formatDate(new Date(timestamp).toISOString())}</code>
 `,
 			{
 				parse_mode: 'HTML'
