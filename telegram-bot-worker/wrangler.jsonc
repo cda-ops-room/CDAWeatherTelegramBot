@@ -8,7 +8,14 @@
 	"main": "src/index.ts",
 	"compatibility_date": "2026-07-10",
 	"observability": {
-		"enabled": true
+		"enabled": true,
+		"logs": {
+			"head_sampling_rate": 1
+		},
+		"traces": {
+			"enabled": true,
+			"head_sampling_rate": 0.01
+		}
 	},
 	"upload_source_maps": true,
 	"compatibility_flags": [
