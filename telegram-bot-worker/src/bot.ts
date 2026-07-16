@@ -8,13 +8,13 @@ import {
 	STOP_SUCCESS_MESSAGE,
 	WELCOME_SUBSCRIBED_MESSAGE,
 } from './bot/replies';
-import { rule } from './bot/rule';
-import { Db, getRotaForChatId, removeSubscription, upsertRota } from './db/rota';
-import { getNextUpdateDateForRota } from './getNextUpdateDateForRota';
-import { Api, Bot, Context, InlineKeyboard, RawApi } from 'grammy';
-import { WeatherCatResponse, WeatherServiceResponse } from './index';
-import { format } from 'date-fns/format';
-import { tz } from '@date-fns/tz';
+import {rule} from './bot/rule';
+import {Db, getRotaForChatId, removeSubscription, upsertRota} from './db/rota';
+import {getNextUpdateDateForRota} from './getNextUpdateDateForRota';
+import {Api, Bot, Context, InlineKeyboard, RawApi} from 'grammy';
+import {WeatherCatResponse, WeatherServiceResponse} from './index';
+import {format} from 'date-fns/format';
+import {tz} from '@date-fns/tz';
 
 type BotHandlerEnv = Pick<Env, 'WEATHER_WBGT_SERVICE' | 'WEATHER_CAT_SERVICE' | 'CF_VERSION_METADATA'>;
 
@@ -241,6 +241,12 @@ export function registerHandlers(bot: Bot<Context, Api<RawApi>>, db: Db, runtime
 		);
 
 		const loadingMessage = await ctx.reply(LOADING_MESSAGE);
+
+		const message = `CAT Status is unavailable as of 16 July 2026. We're working on a fix. Sorry for any inconvinience caused!`
+
+		await ctx.api.editMessageText(ctx.chat.id, loadingMessage.message_id, message, {
+			parse_mode: 'HTML',
+		});
 
 		const weatherCATResponse = await runtimeEnv.WEATHER_CAT_SERVICE.fetch('https://weather-cat-service/');
 		if (!weatherCATResponse.ok) {
