@@ -1,6 +1,6 @@
 import { rule } from './bot/rule';
 import getRotaNumberForDate from './getRotaNumberForDate';
-import {Rota} from "./db/rota";
+import { Rota } from './db/rota';
 
 export function getNextUpdateDateForRota(rota: Rota, fromDate: Date = new Date()): Date | null {
 	let cursor = fromDate;

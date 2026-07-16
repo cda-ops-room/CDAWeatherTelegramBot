@@ -2,7 +2,7 @@ import { tz } from '@date-fns/tz';
 import { format } from 'date-fns/format';
 import { Weather } from '../../../weather-wbgt-service/src/weather.api';
 import { Template } from './template';
-import {Rota} from "../db/rota";
+import { Rota } from '../db/rota';
 
 const SINGAPORE_TIME_ZONE = 'Asia/Singapore';
 

@@ -1,9 +1,11 @@
 # Cloudflare Workers Cron + Message Sending Setup
+
 ka
 
 ## What Changed
 
 ### 1. **Added Cron Trigger** (`wrangler.jsonc`)
+
 ```jsonc
 "triggers": {
   "crons": ["0 */2 * * *"]  // Every 2 hours
@@ -11,12 +13,15 @@ ka
 ```
 
 Adjust the cron expression as needed:
+
 - `0 0 * * *` = Daily at midnight
 - `0 */6 * * *` = Every 6 hours
 - `0 8,14 * * *` = At 8 AM and 2 PM
 
 ### 2. **New `WorkerMessageSender` Class** (`src/messageSender.ts`)
+
 Replaces `p-queue` with Workers-native implementation:
+
 - ✅ Rate limiting (100ms between sends)
 - ✅ Exponential backoff retries (3 attempts)
 - ✅ Telegram error detection (429, 5xx, network errors)
@@ -24,17 +29,16 @@ Replaces `p-queue` with Workers-native implementation:
 - ✅ No state persistence issues
 
 ### 3. **Refactored `scheduled()` Handler** (`src/index.ts`)
+
 **Old pattern (broken on Workers):**
+
 ```typescript
 // p-queue in-memory queue
-await Promise.all(
-  chatIds.map((chatId) =>
-    sendQueue.add(() => sendMessage(chatId, msg))
-  )
-);
+await Promise.all(chatIds.map((chatId) => sendQueue.add(() => sendMessage(chatId, msg))));
 ```
 
 **New pattern (Workers-native):**
+
 ```typescript
 // Fetch data ONCE
 const readings = await Weather.retrieveWeatherDataForBot(env.BOT_ID);
@@ -51,13 +55,13 @@ await sender.sendToMultiple(chatIds, message);
 
 ## Key Benefits
 
-| Aspect | Before (p-queue) | After (WorkerMessageSender) |
-|--------|------------------|---------------------------|
-| **Stateless** | ❌ In-memory queue lost on timeout | ✅ No state to lose |
-| **Cloudflare Native** | ❌ Workaround for Node.js lib | ✅ Native Workers API |
-| **Rate Limiting** | ⚠️ Inconsistent | ✅ Predictable 100ms stagger |
-| **Retries** | ⚠️ Lost if Worker times out | ✅ Per-message retry logic |
-| **Dependencies** | ❌ Adds p-queue | ✅ Zero new deps |
+| Aspect                | Before (p-queue)                   | After (WorkerMessageSender)  |
+| --------------------- | ---------------------------------- | ---------------------------- |
+| **Stateless**         | ❌ In-memory queue lost on timeout | ✅ No state to lose          |
+| **Cloudflare Native** | ❌ Workaround for Node.js lib      | ✅ Native Workers API        |
+| **Rate Limiting**     | ⚠️ Inconsistent                    | ✅ Predictable 100ms stagger |
+| **Retries**           | ⚠️ Lost if Worker times out        | ✅ Per-message retry logic   |
+| **Dependencies**      | ❌ Adds p-queue                    | ✅ Zero new deps             |
 
 ---
 
@@ -110,6 +114,7 @@ This respects Telegram's rate limits (~30-40 msgs/sec per bot token).
 ### If You Need Faster Sends
 
 Adjust in `messageSender.ts`:
+
 ```typescript
 private readonly RATE_LIMIT_MS = 50; // Faster (risky)
 ```
@@ -117,6 +122,7 @@ private readonly RATE_LIMIT_MS = 50; // Faster (risky)
 ### If Telegram Rate-Limits You (429)
 
 The sender will:
+
 1. Catch the 429 error
 2. Read `retry_after` header
 3. Wait that duration
@@ -129,11 +135,13 @@ The sender will:
 ### Key Metrics to Track
 
 1. **Message Success Rate**
+
    ```
    grep "Message sent to chat" logs/*.log | wc -l
    ```
 
 2. **Retry Count**
+
    ```
    grep "Retrying send" logs/*.log | wc -l
    ```
@@ -156,13 +164,15 @@ The sender will:
 ### Option A: Add Caching (10-minute cache)
 
 Uncomment in `weather.api.ts`:
+
 ```typescript
 export async function getCachedOrFetchWeatherDataForBot() {
-  // Uses KV or in-memory cache
+	// Uses KV or in-memory cache
 }
 ```
 
 Then update `index.ts`:
+
 ```typescript
 const { data: readings, isCached } = await Weather.getCachedOrFetchWeatherDataForBot();
 ```
@@ -174,11 +184,10 @@ If you scale to 100k+ users, see `QUEUE_STRATEGY.md`.
 ### Option C: Add Error Notifications
 
 Send yourself a Telegram alert if sends fail:
+
 ```typescript
-if (results.some(r => r.status === 'rejected')) {
-  await bot.telegram.sendMessage(YOUR_ADMIN_CHAT_ID,
-    'Weather broadcast failed. Check logs.'
-  );
+if (results.some((r) => r.status === 'rejected')) {
+	await bot.telegram.sendMessage(YOUR_ADMIN_CHAT_ID, 'Weather broadcast failed. Check logs.');
 }
 ```
 
@@ -215,4 +224,3 @@ Check logs for "Failed to send message" — WorkerMessageSender logs all failure
 ---
 
 **Ready to deploy!** 🚀
-

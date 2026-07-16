@@ -6,11 +6,11 @@ Cloudflare Workers + Telegram Bot API + Singapore weather data monorepo. Read th
 
 Three independent Workers are deployed together:
 
-| Service | Role | Runtime bindings | Secrets |
-|---------|------|------------------|---------|
-| `telegram-bot-worker` | Telegram webhook, bot commands, D1 subscription state, and scheduled broadcasts | `telegram_bot_state` D1, `WEATHER_WBGT_SERVICE`, `WEATHER_CAT_SERVICE`, `CF_VERSION_METADATA`, `BOT_INFO` var | `BOT_TOKEN` |
-| `weather-wbgt-service` | Fetches WBGT and air temperature from data.gov.sg, then caches results | `WEATHER_CACHE` KV | `DATA_GOV_API_KEY` |
-| `weather-cat-service` | Fetches CAT/activity restriction data, then caches results | `WEATHER_CACHE` KV | None currently |
+| Service                | Role                                                                            | Runtime bindings                                                                                              | Secrets            |
+| ---------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `telegram-bot-worker`  | Telegram webhook, bot commands, D1 subscription state, and scheduled broadcasts | `telegram_bot_state` D1, `WEATHER_WBGT_SERVICE`, `WEATHER_CAT_SERVICE`, `CF_VERSION_METADATA`, `BOT_INFO` var | `BOT_TOKEN`        |
+| `weather-wbgt-service` | Fetches WBGT and air temperature from data.gov.sg, then caches results          | `WEATHER_CACHE` KV                                                                                            | `DATA_GOV_API_KEY` |
+| `weather-cat-service`  | Fetches CAT/activity restriction data, then caches results                      | `WEATHER_CACHE` KV                                                                                            | None currently     |
 
 The Telegram worker calls the weather workers through Cloudflare service bindings. The weather workers are not intended to be public user-facing APIs.
 

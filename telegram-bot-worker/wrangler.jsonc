@@ -19,9 +19,7 @@
 		}
 	},
 	"upload_source_maps": true,
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
+	"compatibility_flags": ["nodejs_compat"],
 	"version_metadata": {
 		"binding": "CF_VERSION_METADATA"
 	},
@@ -31,9 +29,7 @@
 				"BOT_INFO": "{\"id\":7847519568,\"is_bot\":true,\"first_name\":\"CDA ARMS Weather Bot\",\"username\":\"cda_weather_arms_bot\",\"can_join_groups\":false,\"can_read_all_group_messages\":false,\"supports_inline_queries\":false,\"supports_guest_queries\":false,\"can_connect_to_business\":false,\"has_main_web_app\":false,\"has_topics_enabled\":false,\"allows_users_to_create_topics\":false,\"can_manage_bots\":false,\"supports_join_request_queries\":false}"
 			},
 			"secrets": {
-				"required": [
-					"BOT_TOKEN"
-				]
+				"required": ["BOT_TOKEN"]
 			},
 			"version_metadata": {
 				"binding": "CF_VERSION_METADATA"
@@ -69,9 +65,7 @@
 		}
 	],
 	"secrets": {
-		"required": [
-			"BOT_TOKEN"
-		]
+		"required": ["BOT_TOKEN"]
 	},
 	"d1_databases": [
 		{
@@ -82,9 +76,7 @@
 		}
 	],
 	"triggers": {
-		"crons": [
-			"50 1,3,5,7 * * 1-5"
-		]
+		"crons": ["50 1,3,5,7 * * 1-5"]
 	},
 	"vars": {
 		"BOT_INFO": "{\"id\":8876073414,\"is_bot\":true,\"first_name\":\"CDA ARMS Telegram Bot DEV\",\"username\":\"dev_cda_arms_telegram_bot\",\"can_join_groups\":true,\"can_read_all_group_messages\":false,\"supports_inline_queries\":false,\"supports_guest_queries\":false,\"can_connect_to_business\":false,\"has_main_web_app\":false,\"has_topics_enabled\":false,\"allows_users_to_create_topics\":false,\"can_manage_bots\":false,\"supports_join_request_queries\":false}"

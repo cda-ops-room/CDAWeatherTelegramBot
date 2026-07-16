@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/d1';
 import { rotaTable } from './schema';
-import { and, eq, or} from 'drizzle-orm';
+import { and, eq, or } from 'drizzle-orm';
 import getRotaNumberForDate from '../getRotaNumberForDate';
 
 export function createDb(database: D1Database) {
@@ -9,8 +9,8 @@ export function createDb(database: D1Database) {
 
 export type Db = ReturnType<typeof createDb>;
 
-export type OfficeHour = 0
-export type Rota = 1 | 2 | 3 | OfficeHour
+export type OfficeHour = 0;
+export type Rota = 1 | 2 | 3 | OfficeHour;
 
 export async function upsertRota({ chatId, rota, db }: { chatId: number; rota: Rota; db: Db }) {
 	return db
