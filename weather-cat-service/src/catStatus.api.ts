@@ -10,7 +10,10 @@ export namespace CatStatus {
 
 	async function requestCatStatusAPI(url: string): Promise<CatStatusAPIResponse> {
 		try {
-			const response = await fetch(url);
+			const response = await fetch(url, {
+				method: 'GET',
+				signal: AbortSignal.timeout(1000), // Set a timeout of 1 seconds
+			});
 
 			if (!response.ok) {
 				throw new Error(`Request failed with status ${response.status}`);
