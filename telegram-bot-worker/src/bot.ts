@@ -257,23 +257,23 @@ export function registerHandlers(bot: Bot<Context, Api<RawApi>>, db: Db, runtime
 			const { cda, httc } = readings;
 
 			const message = `📍 Civil Defence Academy
-		CAT Status: ${cda.catText} ${cda.emoji}
-		CAT Start On: ${formatDate(new Date(cda.cat_start_on)) ?? 'N/A'}
-		CAT Ends On: ${formatDate(new Date(cda.cat_end_on)) ?? 'N/A'}
+CAT Status: ${cda.catText} ${cda.emoji}
+CAT Start On: ${formatDate(new Date(cda.cat_start_on)) ?? 'N/A'}
+CAT Ends On: ${formatDate(new Date(cda.cat_end_on)) ?? 'N/A'}
 
-		📍 Home Team Tactical Centre
-		CAT Status: ${httc.catText} ${httc.emoji}
-		CAT Start On: ${formatDate(new Date(httc.cat_start_on)) ?? 'N/A'}
-		CAT Ends On: ${formatDate(new Date(httc.cat_end_on)) ?? 'N/A'}
+📍 Home Team Tactical Centre
+CAT Status: ${httc.catText} ${httc.emoji}
+CAT Start On: ${formatDate(new Date(httc.cat_start_on)) ?? 'N/A'}
+CAT Ends On: ${formatDate(new Date(httc.cat_end_on)) ?? 'N/A'}
 
-		Info last updated: ${formatDate(new Date(cda.update_on)) ?? 'N/A'}
-		⚠️ All info is accurate as of the last updated time.
+Info last updated: ${formatDate(new Date(cda.update_on)) ?? 'N/A'}
+⚠️ All info is accurate as of the last updated time.
 
-		ℹ️ CAT Status Legend:
-		🟢 CAT 3: Outdoor activities are allowed.
-		🟡 CAT 2: Outdoor activities to be decided by conducting structure.
-		🟠 CAT 1 (Incoming): CAT 1 has been declared and will take effect at the stated time. Prepare to cease outdoor activities.
-		🔴 CAT 1: Heavy rain and/or lightning risk. Outdoor activities are NOT ALLOWED.`;
+ℹ️ CAT Status Legend:
+🟢 CAT 3: Outdoor activities are allowed.
+🟡 CAT 2: Outdoor activities to be decided by conducting structure.
+🟠 CAT 1 (Incoming): CAT 1 has been declared and will take effect at the stated time. Prepare to cease outdoor activities.
+🔴 CAT 1: Heavy rain and/or lightning risk. Outdoor activities are NOT ALLOWED.`;
 
 			return await ctx.reply(message, {
 				parse_mode: 'HTML',
