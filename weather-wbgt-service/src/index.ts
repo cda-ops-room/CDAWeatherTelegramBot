@@ -1,29 +1,8 @@
 import getNextTTLForCurrentQuarterHour from './getNextTTLForCurrentQuarterHour';
-import { env } from 'cloudflare:workers';
 import { Weather } from './weather.api';
 import { TZDate } from '@date-fns/tz';
-/**
- * Welcome to Cloudflare Workers! This is your first Durable Objects application.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your Durable Object in action
- * - Run `npm run deploy` to publish your application
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/durable-objects
- */
 
 export default {
-	/**
-	 * This is the standard fetch handler for a Cloudflare Worker
-	 *
-	 * @param request - The request submitted to the Worker from the client
-	 * @param env - The interface to reference bindings declared in wrangler.jsonc
-	 * @param ctx - The execution context of the Worker
-	 * @returns The response to be sent back to the client
-	 */
 	async fetch(request, env, ctx): Promise<Response> {
 		// Check if there is data in the cache
 		const cachedData = await env.WEATHER_CACHE.get('WGBT_DATA');
@@ -44,6 +23,8 @@ export default {
 		const res = {
 			cache_expiration: new TZDate(new Date(Date.now() + expirationTtl * 1000), 'Asia/Singapore'),
 			cda: {
+				wbgtStation: readings.cdaWBGT.station,
+				airTempStation: readings.cdaAirTemp.station,
 				heatStress: readings.cdaWBGT.heatStress,
 				wbgt: readings.cdaWBGT.wbgt,
 				airTemp: readings.cdaAirTemp.value,
@@ -51,6 +32,8 @@ export default {
 				dateTime: readings.cdaWBGT.dateTime,
 			},
 			httc: {
+				wbgtStation: readings.httcWBGT.station,
+				airTempStation: readings.httcAirTemp.station,
 				heatStress: readings.httcWBGT.heatStress,
 				wbgt: readings.httcWBGT.wbgt,
 				airTemp: readings.httcAirTemp.value,
